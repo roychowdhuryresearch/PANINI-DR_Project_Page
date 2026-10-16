@@ -1131,10 +1131,7 @@ footer p { margin: 4px 0; }
     if (timer) { stop(); return; }
     if (step === 3) go(0);
     $("play").textContent = "❚❚ Pause";
-    timer = setInterval(() => {
-      if (step >= 3) { stop(); return; }
-      go(step + 1);
-    }, 4500);
+    timer = setInterval(() => { go(step >= 3 ? 0 : step + 1); }, 2000);
   }
 
   document.querySelectorAll(".steps button").forEach((b) => b.addEventListener("click", () => { stop(); go(+b.dataset.step); }));
@@ -1176,8 +1173,8 @@ footer p { margin: 4px 0; }
   const m = /^#w([0-3])$/.exec(location.hash || "");
   step = m ? +m[1] : 0;
   render();
-  // Open at W0 and play through to W3 once; any click on the controls takes over.
-  if (!m) setTimeout(() => { if (!timer && step === 0) play(); }, 1400);
+  // Open at W0 and cycle W0 to W3 every 2 seconds; any click on the controls takes over.
+  if (!m) setTimeout(() => { if (!timer && step === 0) play(); }, 0);
 })();
 </script>
 <script>
