@@ -8,6 +8,8 @@ Key results (all harnesses use gpt-oss-120b, the same frozen corpora and the sam
 - Best average accuracy across BrowseComp-Plus, FRAMES and MoNaCo: 69.1 against 63.4.
 - Highest observed support (answer credit recoverable from the saved evidence) on all three benchmarks: average 60.9 against 49.6.
 
+Not to be confused with Panini (arXiv:2602.15156, continual learning in token space, ICML 2026) or GSW (Generative Semantic Workspaces, AAAI 2026), related work from the same lab whose code is at https://github.com/roychowdhuryresearch/gsw-memory. PANINI-DR builds its research workspace on the GSW representation.
+
 ## Links
 
 - [Project page](https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/): interactive Figure 1, results, citation

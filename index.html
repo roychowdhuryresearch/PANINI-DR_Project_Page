@@ -461,6 +461,14 @@ footer p { margin: 4px 0; }
     },
     {
      "@type": "Question",
+     "name": "Is PANINI-DR the same as Panini or GSW?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. They are related work from the same lab. GSW (Generative Semantic Workspaces, AAAI 2026) is the structured representation that PANINI-DR's research workspace is built on. Panini (arXiv:2602.15156, ICML 2026) uses GSW for continual learning in token space; the code for GSW and Panini is at https://github.com/roychowdhuryresearch/gsw-memory. PANINI-DR (arXiv:2610.15208) is a separate deep-research harness for multi-step question answering; its code is at https://github.com/roychowdhuryresearch/panini-dr."
+     }
+    },
+    {
+     "@type": "Question",
      "name": "How well does PANINI-DR do on BrowseComp-Plus?",
      "acceptedAnswer": {
       "@type": "Answer",
@@ -686,6 +694,8 @@ footer p { margin: 4px 0; }
       <div class="faq">
         <h3>What is PANINI-DR?</h3>
         <p>PANINI-DR is a multi-agent deep-research harness for answering hard multi-step questions over a document collection. An Orchestrator coordinates the investigation through a shared research workspace, built on the Generative Semantic Workspace (GSW) representation, that records subquestions, their dependencies, findings and evidence. Researcher agents investigate individual subquestions, and a separate Verifier checks each proposed answer against its subquestion and cited evidence before it is reused.</p>
+        <h3>Is PANINI-DR the same as Panini or GSW?</h3>
+        <p>No. They are related work from the same lab. GSW (Generative Semantic Workspaces, AAAI 2026) is the structured representation that PANINI-DR&#x27;s research workspace is built on. Panini (<a href="https://arxiv.org/abs/2602.15156">arXiv:2602.15156</a>, ICML 2026) uses GSW for continual learning in token space; the code for GSW and Panini is at <a href="https://github.com/roychowdhuryresearch/gsw-memory">github.com/roychowdhuryresearch/gsw-memory</a>. PANINI-DR (<a href="https://arxiv.org/abs/2610.15208">arXiv:2610.15208</a>) is a separate deep-research harness for multi-step question answering; its code is at <a href="https://github.com/roychowdhuryresearch/panini-dr">github.com/roychowdhuryresearch/panini-dr</a>.</p>
         <h3>How well does PANINI-DR do on BrowseComp-Plus?</h3>
         <p>On BrowseComp-Plus (CF-150 split) PANINI-DR reaches 73.3% accuracy, 16.0 points above the next-best of seven state-of-the-art deep-research harnesses (SLEUTH, 57.3%), with all harnesses using the same language model (gpt-oss-120b), frozen corpora and retrieval service. On the hard questions it answers 52%, against 28% for the next best.</p>
         <h3>How does PANINI-DR compare on FRAMES and MoNaCo?</h3>
