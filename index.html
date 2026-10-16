@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces</title>
+<meta name="description" content="PANINI-DR is a deep-research harness that keeps an explicit research workspace and verifies each finding before it is reused. 73.3% on BrowseComp-Plus, 16.0 points above the next-best harness.">
+<meta name="author" content="M. Yigit Turali, Shreyas Rajesh, M. Efe Lorasdagi, Chenda Duan, Kartik Sharma, Vwani Roychowdhury">
+<link rel="canonical" href="https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5d50'/%3E%3Crect x='6' y='8' width='9' height='7' rx='2' fill='%23fff'/%3E%3Crect x='17' y='8' width='9' height='7' rx='2' fill='%23dde8e1'/%3E%3Crect x='11.5' y='18' width='9' height='7' rx='2' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/">
+<meta property="og:title" content="PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces">
+<meta property="og:description" content="PANINI-DR is a deep-research harness that keeps an explicit research workspace and verifies each finding before it is reused. 73.3% on BrowseComp-Plus, 16.0 points above the next-best harness.">
+<meta property="og:image" content="https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces">
+<meta name="twitter:description" content="PANINI-DR is a deep-research harness that keeps an explicit research workspace and verifies each finding before it is reused. 73.3% on BrowseComp-Plus, 16.0 points above the next-best harness.">
+<meta name="twitter:image" content="https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=Roboto+Mono:wght@400&display=swap">
+<style>
+/* Light-only by design, like academic project pages. Colours inside the figure follow the paper's Figure 1. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --text: #4a4a4a;
+  --strong: #363636;
+  --muted: #7a7a7a;
+  --rule: #e8e8e8;
+  --soft: #f5f5f5;
+  --link: #3273dc;
+  /* figure palette (sampled from the paper's Figure 1) */
+  --ground: #fdfbf7;
+  --panel: #f1ece3;
+  --card: #ffffff;
+  --ink: #26211c;
+  --line: #a59b8f;
+  --hair: #e2dbd0;
+  --green: #2f5d50;
+  --on-green: #ffffff;
+  --green-pale: #dde8e1;
+  --green-text: #2f5d50;
+  --orange: #c8643b;
+  --orange-soft: #f6e3d9;
+  --red: #9b2f2a;
+  --red-soft: #f3dedb;
+  --focus: #3273dc;
+  --title: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --body: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.6;
+  padding-inline: 16px; padding-block: 0;
+}
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+.container { max-width: 960px; margin: 0 auto; }
+.container.wide { max-width: 1400px; }
+
+/* ---------- headline numbers ---------- */
+.highlights { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; margin: 26px auto 0; max-width: 1100px; }
+.hl { flex: 1 1 200px; padding: 6px 18px; text-align: center; border-left: 1px solid var(--rule); }
+.hl:first-child { border-left: 0; }
+.hl .num { font-family: var(--title); font-weight: 900; font-size: clamp(26px, 3.4vw, 34px); line-height: 1.1; color: var(--green); font-variant-numeric: tabular-nums; }
+.hl .num small { font-size: .55em; font-weight: 700; color: var(--muted); }
+.hl .lbl { font-size: 14px; color: var(--text); line-height: 1.35; margin-top: 4px; }
+
+/* ---------- results chart ---------- */
+.tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 18px; margin: 4px 0 18px; }
+.tabgroup { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.tabgroup .gl { font-size: 13.5px; color: var(--muted); }
+.seg { display: inline-flex; border: 1px solid #dbdbdb; border-radius: 999px; padding: 3px; gap: 2px; background: #fff; flex-wrap: wrap; }
+.seg button { font: 400 14px/1 var(--title); color: var(--strong); background: transparent; border: 0; padding: 7px 12px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: #363636; color: #fff; }
+.chart { display: grid; gap: 7px; max-width: 960px; margin: 0 auto; }
+.bar-row { display: grid; grid-template-columns: 138px minmax(0, 1fr) 62px; align-items: center; gap: 10px; font-size: 14.5px; }
+.bar-row .name { text-align: right; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-row.ours .name { color: var(--strong); font-weight: 900; }
+.track { position: relative; height: 22px; background: var(--soft); border-radius: 4px; overflow: hidden; }
+.fill { position: absolute; left: 0; top: 0; bottom: 0; background: #c2c2c2; border-radius: 4px; transition: width .5s ease; }
+.bar-row.ours .fill { background: var(--green); }
+.bar-row .v { font-variant-numeric: tabular-nums; color: var(--text); }
+.bar-row.ours .v { color: var(--green); font-weight: 900; }
+.axis { display: grid; grid-template-columns: 138px minmax(0, 1fr) 62px; gap: 10px; font-size: 12.5px; color: var(--muted); max-width: 960px; margin: 2px auto 0; font-variant-numeric: tabular-nums; }
+.axis .ticks { display: flex; justify-content: space-between; }
+.chart-note { max-width: 960px; margin: 12px auto 0; font-size: 13.5px; color: var(--muted); text-align: justify; }
+.table-wrap { overflow-x: auto; margin: 22px auto 0; max-width: 1100px; }
+table.res { border-collapse: collapse; width: 100%; min-width: 820px; font-size: 14.5px; font-variant-numeric: tabular-nums; color: var(--text); }
+table.res th, table.res td { padding: 7px 9px; text-align: right; white-space: nowrap; }
+table.res th:first-child, table.res td:first-child { text-align: left; }
+table.res thead th { font-weight: 700; color: var(--strong); border-bottom: 1px solid #dbdbdb; }
+table.res thead tr:first-child th { border-bottom: 0; padding-bottom: 0; font-size: 13.5px; color: var(--muted); font-weight: 700; text-align: center; }
+table.res thead tr:first-child th.grp { border-bottom: 1px solid #dbdbdb; }
+table.res tbody tr { border-bottom: 1px solid var(--rule); }
+table.res td.sep, table.res th.sep { border-left: 1px solid #dbdbdb; }
+table.res tbody tr.ours { background: #eef4f1; color: var(--strong); }
+table.res tbody tr.ours td:first-child { font-weight: 900; color: var(--green); }
+table.res td.best { font-weight: 900; color: var(--strong); }
+@media (max-width: 620px) {
+  .hl { border-left: 0; flex-basis: 45%; padding: 8px; }
+  .bar-row, .axis { grid-template-columns: 96px minmax(0, 1fr) 52px; font-size: 13px; }
+  .chart-note { text-align: left; }
+}
+.col { max-width: 780px; margin: 0 auto; }
+
+/* ---------- publication header ---------- */
+.pub { text-align: center; padding-block: 52px 12px; }
+.publication-title {
+  font-family: var(--title); font-weight: 400; color: var(--strong);
+  font-size: clamp(28px, 4.2vw, 44px); line-height: 1.22; margin: 0 auto 18px; max-width: 900px; text-wrap: balance;
+}
+.publication-title b { font-weight: 900; }
+.authors { font-family: var(--title); font-size: clamp(17px, 2vw, 20px); color: var(--strong); margin: 0; }
+.authors .a { display: inline-block; margin: 0 6px; white-space: nowrap; }
+.affil { font-family: var(--title); font-size: clamp(16px, 1.8vw, 18px); color: var(--text); margin: 6px 0 0; }
+.note { font-size: 14px; color: var(--muted); margin: 4px 0 0; }
+.venue { font-family: var(--title); font-size: 16px; color: var(--muted); margin: 10px 0 0; }
+.links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px; font: 500 15px/1 var(--title);
+  background: #363636; color: #fff; border: 0; border-radius: 999px; padding: 10px 17px; cursor: pointer; text-decoration: none;
+}
+.btn:hover { background: #242424; text-decoration: none; }
+.btn svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
+
+/* ---------- teaser figure ---------- */
+.teaser { padding-block: 14px 8px; }
+.question {
+  background: var(--panel); border-radius: 12px; padding: 8px 14px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 14px; align-items: center;
+}
+.q-label { font-family: var(--title); font-weight: 700; color: var(--ink); font-size: 16px; }
+.q-label small { font-family: var(--body); font-weight: 400; color: var(--muted); font-size: 14px; margin-left: 8px; }
+.q-text { color: var(--ink); font-size: clamp(15px, 1.6vw, 18px); line-height: 1.35; }
+.q-text u { text-decoration-color: var(--line); text-underline-offset: 4px; }
+.answer { text-align: right; font-family: var(--title); font-weight: 700; color: var(--green-text); font-size: 15px; white-space: nowrap; }
+.answer .val { font-size: 24px; line-height: 1; margin-left: 4px; }
+.answer.pending { color: var(--muted); }
+
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 8px 0 8px; }
+.steps { display: inline-flex; border: 1px solid #dbdbdb; border-radius: 999px; padding: 3px; gap: 2px; background: #fff; }
+.steps button {
+  font: 500 15px/1 var(--title); color: var(--strong); background: transparent; border: 0;
+  padding: 8px 14px; border-radius: 999px; cursor: pointer;
+}
+.steps button sub { font-size: 11px; }
+.steps button[aria-pressed="true"] { background: #363636; color: #fff; }
+.nav { display: inline-flex; gap: 6px; }
+.icon-btn {
+  height: 36px; min-width: 36px; border-radius: 999px; border: 1px solid #dbdbdb; background: #fff;
+  color: var(--strong); cursor: pointer; font: 500 15px/1 var(--title); display: inline-flex; align-items: center; justify-content: center; padding: 0 12px;
+}
+.icon-btn:hover { border-color: #b5b5b5; }
+.icon-btn:disabled { opacity: .4; cursor: default; }
+.play { min-width: 92px; gap: 6px; font-size: 14px; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text); cursor: pointer; margin-left: auto; }
+.toggle input { accent-color: var(--red); width: 16px; height: 16px; }
+
+.stage { display: grid; grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); gap: 16px; align-items: stretch; }
+.side { position: relative; min-width: 0; }
+.side .details { position: absolute; inset: 0; overflow: auto; }
+.board-shell { background: var(--panel); border-radius: 14px; padding: 8px 10px 6px; }
+.board-title { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; padding: 2px 6px 6px; flex-wrap: wrap; }
+.board-title .w { font-family: var(--title); font-weight: 700; color: var(--ink); font-size: 20px; }
+.board-title .w sub { font-size: 14px; }
+.board-title .w .eq { font-family: var(--body); font-weight: 400; color: var(--muted); font-size: 17px; }
+.board-title .note { color: var(--muted); font-size: 14px; text-align: right; margin: 0; }
+.board-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+svg.board { display: block; width: 100%; min-width: 600px; height: auto; max-height: max(220px, calc(100vh - 560px)); }
+.board-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 14px; padding: 4px 6px 2px; }
+.board-foot .sub { font-family: var(--mono); font-size: 13px; color: var(--green-text); min-height: 18px; }
+
+.n-rect { transition: fill .35s, stroke .35s; }
+.node { cursor: pointer; outline: none; }
+.node:focus-visible .sel-ring, .node.selected .sel-ring { opacity: 1; }
+.sel-ring { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 3 4; opacity: 0; }
+.n-label { font: 400 19px var(--title); }
+.n-value { font: 700 27px var(--title); }
+.hub-rect { fill: var(--ground); stroke: var(--hair); stroke-width: 1.5; }
+.hub-text { font: 400 18px var(--title); fill: var(--ink); }
+.e-label { font: italic 400 17px var(--body); fill: var(--muted); }
+.chip-text { font: 700 15px var(--title); }
+
+.details { background: #fff; border: 1px solid var(--rule); border-radius: 12px; padding: 10px 12px; color: var(--ink); }
+.details h3 { font-family: var(--title); font-size: 17px; font-weight: 700; margin: 0 0 2px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; color: var(--ink); }
+.status { font: 500 12px/1 var(--title); letter-spacing: .02em; padding: 5px 9px; border-radius: 999px; }
+.status.verified, .status.derived { background: var(--green); color: var(--on-green); }
+.status.open, .status.query, .status.target { background: var(--soft); color: var(--text); }
+.status.ready { background: var(--orange-soft); color: var(--orange); }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 10px; margin: 6px 0 0; font-size: 13px; line-height: 1.45; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; }
+.details .tip { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--text); }
+.legend .row { display: flex; gap: 6px; align-items: center; }
+.sw { width: 22px; height: 13px; border-radius: 3px; flex: none; }
+.sw.new { background: var(--green); }
+.sw.known { background: var(--green-pale); }
+.sw.open { background: #fff; border: 1.5px dashed var(--line); }
+.sw.ready { background: #fff; border: 1.5px dashed var(--orange); box-shadow: 0 0 0 3px var(--orange-soft); }
+.sw.target { background: #fff; border: 2.5px solid var(--ink); }
+
+.inside { border: 2px solid var(--orange); border-radius: 14px; background: #fff; overflow: hidden; margin-top: 10px; }
+.inside-head { background: var(--orange); color: #fff; padding: 5px 12px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-family: var(--title); }
+.inside-head .t { font-weight: 700; font-size: 15px; }
+.inside-head .tr { font-size: 14px; opacity: .95; }
+.inside-body { padding: 8px 10px 8px; display: grid; gap: 6px; color: var(--ink); }
+.inside-body .lede { margin: 0; color: var(--muted); font-size: 12.5px; }
+.pipe { display: flex; align-items: stretch; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; position: relative; }
+.pipe.has-loop { padding-bottom: 32px; }
+svg.loop { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; }
+svg.loop text { font: italic 400 13px var(--body); fill: var(--red); }
+.redo { display: block; margin-top: 4px; color: var(--red); font-size: 12.5px; }
+.st { background: var(--panel); border-radius: 10px; padding: 7px 8px; display: flex; flex-direction: column; gap: 4px; flex: 1 1 0; min-width: 138px; }
+.st-top { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: baseline; }
+.st-who { font-family: var(--title); font-weight: 700; font-size: 14.5px; }
+.st-kind { font-size: 12px; color: var(--muted); }
+.st-text { margin: 0; font-size: 12.5px; line-height: 1.4; }
+.lanes { display: grid; grid-template-columns: 1fr; gap: 6px; }
+.lane { background: #fff; border: 1px solid var(--hair); border-radius: 7px; padding: 4px 7px; font-size: 12.5px; line-height: 1.35; }
+.lane b { display: inline; font-weight: 600; font-size: 12.5px; color: var(--muted); }
+.lane b::after { content: ""; display: block; }
+.mark { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; font-size: 10.5px; font-weight: 700; margin-right: 5px; vertical-align: -3px; color: #fff; }
+.mark.ok { background: var(--green); }
+.mark.no { background: var(--red); }
+.mark.skip { background: var(--line); }
+.mark.wait { background: var(--orange); }
+.reject { border-color: var(--red); background: var(--red-soft); }
+.reject .who { color: var(--red); font-weight: 600; }
+.arrow { flex: 0 0 16px; display: flex; align-items: center; justify-content: center; color: var(--orange); font-size: 17px; font-weight: 700; }
+code, .mono { font-family: var(--mono); font-size: .92em; }
+.hint { font-family: var(--mono); font-size: 12.5px; background: #fff; border: 1px dashed var(--line); border-radius: 5px; padding: 0 4px; }
+.fig-caption { max-width: 1100px; margin: 14px auto 0; font-size: 14.5px; color: var(--text); text-align: justify; }
+.fig-caption b { color: var(--strong); }
+
+/* ---------- text sections ---------- */
+section.sec { padding-block: 34px 6px; }
+section.sec h2 { font-family: var(--title); font-weight: 500; color: var(--strong); font-size: 30px; text-align: center; margin: 0 0 14px; }
+.justify { text-align: justify; }
+.justify p { margin: 0 0 12px; }
+.ideas h3 { font-family: var(--title); font-weight: 500; color: var(--strong); font-size: 20px; margin: 16px 0 4px; }
+.ideas p { margin: 0; }
+pre.bib { background: var(--soft); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0; font: 13.5px/1.55 var(--mono); color: var(--strong); }
+.bib-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.bib-head h2 { text-align: left !important; margin: 0 !important; }
+.copy { font: 500 14px/1 var(--title); background: #fff; color: var(--strong); border: 1px solid #dbdbdb; border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+.copy:hover { border-color: #b5b5b5; }
+.copied { font-size: 13.5px; color: var(--green-text); margin-right: 8px; }
+footer { text-align: center; color: var(--muted); font-size: 13.5px; padding-block: 40px 44px; }
+footer p { margin: 4px 0; }
+
+@media (max-width: 900px) {
+  .stage { grid-template-columns: 1fr; }
+  .side .details { position: static; }
+  svg.board { max-height: none; }
+  .toggle { margin-left: 0; }
+}
+@media (max-width: 620px) {
+  .question { grid-template-columns: 1fr; }
+  .answer { text-align: left; }
+  .board-title .note { text-align: left; }
+  .justify { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="container" style="max-width:1200px">
+  <header class="pub">
+    <h1 class="publication-title"><b>PANINI-DR</b>: Controlled Deep Research through Generative Semantic Workspaces</h1>
+    <p class="authors">
+      <span class="a">M. Yigit Turali*</span>
+      <span class="a">Shreyas Rajesh*</span>
+      <span class="a">M. Efe Lorasdagi</span>
+      <span class="a">Chenda Duan</span>
+      <span class="a">Kartik Sharma</span>
+      <span class="a">Vwani Roychowdhury</span>
+    </p>
+    <p class="affil">University of California, Los Angeles</p>
+    <p class="note">*Equal contribution</p>
+    <div class="links">
+      <a class="btn" href="https://arxiv.org/pdf/2610.15208" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1h6.5L13 4.5V15H3V1zm6 1.2V5h2.8L9 2.2zM5 8h6v1H5V8zm0 2h6v1H5v-1zm0 2h4v1H5v-1z"/></svg>Paper</a>
+      <a class="btn" href="https://arxiv.org/abs/2610.15208" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 2h2.6l3.2 4.4L11.2 2h2.6L9.3 8l4.5 6h-2.6L8 9.6 4.8 14H2.2l4.5-6L2.2 2z"/></svg>arXiv</a>
+      <a class="btn" href="https://github.com/roychowdhuryresearch/panini-dr" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .2a8 8 0 0 0-2.5 15.6c.4.1.5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.4.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.4 7.4 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.8-3.7 4 .3.3.6.8.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 .2z"/></svg>Code</a>
+      <a class="btn" href="#BibTeX"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h12v12H2V2zm2 3v1.2h8V5H4zm0 2.4v1.2h8V7.4H4zm0 2.4V11h5V9.8H4z"/></svg>BibTeX</a>
+    </div>
+    <div class="highlights" aria-label="Headline results">
+      <div class="hl"><div class="num">73.3%</div><div class="lbl">accuracy on BrowseComp-Plus</div></div>
+      <div class="hl"><div class="num">+16.0</div><div class="lbl">points over the next-best of 7 harnesses</div></div>
+      <div class="hl"><div class="num">52% <small>vs 28%</small></div><div class="lbl">on hard questions, nearly 2&times; the next best</div></div>
+      <div class="hl"><div class="num">60.9 <small>vs 49.6</small></div><div class="lbl">evidence-backed score (Obs.), average of 3 benchmarks</div></div>
+    </div>
+  </header>
+</div>
+
+<div class="container wide">
+  <section class="teaser" id="figure" aria-labelledby="fig-label">
+    <span id="fig-label" hidden>Figure 1, interactive</span>
+    <div class="question">
+      <div class="q-label">Question <small>FRAMES q501</small></div>
+      <div class="q-text">How old was the <u>U.S. President</u>'s wife when the <u>Camp David Accords</u> were signed?</div>
+      <div class="answer pending" id="answer">answer <span class="val" id="answer-val">?</span></div>
+    </div>
+
+    <div class="controls">
+      <div class="steps" role="group" aria-label="Workspace state">
+        <button type="button" id="step-0" data-step="0">W<sub>0</sub></button>
+        <button type="button" id="step-1" data-step="1">W<sub>1</sub></button>
+        <button type="button" id="step-2" data-step="2">W<sub>2</sub></button>
+        <button type="button" id="step-3" data-step="3">W<sub>3</sub></button>
+      </div>
+      <div class="nav">
+        <button type="button" class="icon-btn" id="prev" aria-label="Previous step">‹</button>
+        <button type="button" class="icon-btn" id="next" aria-label="Next step">›</button>
+        <button type="button" class="icon-btn play" id="play">▶ Play</button>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="board-shell">
+        <div class="board-title">
+          <div class="w" id="w-title"></div>
+          <p class="note" id="w-note"></p>
+        </div>
+        <div class="board-scroll">
+          <svg class="board" id="board" viewBox="0 8 1000 462" role="img" aria-label="Research workspace: the plan's subquestions and their findings"></svg>
+        </div>
+        <div class="board-foot">
+          <span class="sub" id="board-foot"></span>
+          <div class="legend" aria-label="Legend">
+            <span class="row"><span class="sw new"></span>Admitted in this step</span>
+            <span class="row"><span class="sw known"></span>Admitted earlier</span>
+            <span class="row"><span class="sw ready"></span>Ready</span>
+            <span class="row"><span class="sw open"></span>Unresolved</span>
+            <span class="row"><span class="sw target"></span>Answer target ★ (code)</span>
+          </div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="details" id="details" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <aside class="inside" aria-live="polite">
+      <div class="inside-head"><span class="t" id="in-title"></span><span class="tr" id="in-trans"></span></div>
+      <div class="inside-body" id="in-body"></div>
+    </aside>
+
+    <p class="fig-caption"><b>Figure 1.</b> PANINI-DR on a sample query. Step through the workspace states W<sub>0</sub>&ndash;W<sub>3</sub>, and click a box to see its retrieval hint and the check it must pass. Each W<sub>k</sub> = (P, S<sub>k</sub>) pairs the plan with the findings admitted so far. As in the paper, the stages separate the subquestions for explanation rather than reproduce the recorded dispatch timing: the recorded execution investigated all four factual subquestions in one dispatch, and the Reagan rejection is hypothetical.</p>
+  </section>
+</div>
+
+<div class="container">
+  <section class="sec" aria-labelledby="abstract-title">
+    <div class="col">
+      <h2 id="abstract-title">Abstract</h2>
+      <div class="justify">
+        <p>Deep research requires connecting multiple steps of search, reasoning, and computation, with intermediate findings guiding what to investigate next. As investigations grow, agents must maintain research state across model calls and check findings before errors propagate into subsequent work. We introduce PANINI-DR, a multi-agent harness that separates coordination of the overall investigation from the research and verification of individual subquestions. A shared workspace, built on the Generative Semantic Workspace representation, records subquestions, their dependencies, findings, and supporting evidence. Researchers investigate individual subquestions, while a separate verification agent checks proposed answers against those subquestions and their evidence. Verification feedback guides further investigation, and recorded findings inform subsequent assignments. We evaluate PANINI-DR on BrowseComp-Plus, FRAMES, and MoNaCo against seven state-of-the-art deep-research harnesses, all using a shared language-model backbone and frozen corpora. PANINI-DR achieves the strongest average performance across the three benchmarks. On BrowseComp-Plus, it achieves 73.3% accuracy, outperforming the next-best harness by 16.0 points. Its advantage is strongest on hard questions, where it answers nearly twice as many as the next-best harness. Ablations further show that structured planning and persistent state improve performance, as does checking each finding against its cited evidence before it is reused. Because a model can answer correctly from memory alone, we also analyze the evidence retained by each harness. PANINI-DR achieves the highest answer recoverability from saved evidence on all three benchmarks, while complementary claim-support audits show stronger evidence-backed answers. Accounting for this evidence changes how harnesses compare and further strengthens PANINI-DR's advantage.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="how-title">
+    <div class="col">
+      <h2 id="how-title">How it works</h2>
+      <div class="justify ideas">
+        <p>PANINI-DR is built on two ideas. An Orchestrator coordinates the investigation; Researchers and a Verifier work on one subquestion at a time.</p>
+        <h3>Explicit research state</h3>
+        <p>A shared workspace, built on the Generative Semantic Workspace representation, records the subquestions, how they depend on each other, the findings, and the evidence behind them. The Orchestrator reads it to decide what is ready to investigate.</p>
+        <h3>Verified findings before reuse</h3>
+        <p>Researchers propose answers to single subquestions with cited evidence. A separate Verifier checks each proposal against its subquestion and evidence; rejections send the Researcher back to search. Only admitted findings feed the subquestions that depend on them, and calculations run in code.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="results-title">
+    <div class="col">
+      <h2 id="results-title">Results</h2>
+      <div class="justify">
+        <p>We compare PANINI-DR with seven state-of-the-art deep-research harnesses. All of them run on the same language model (gpt-oss-120b), the same frozen corpora and the same retrieval service, so the differences come from the harnesses.</p>
+      </div>
+    </div>
+    <div class="tabs" role="group" aria-label="Choose a result">
+      <div class="tabgroup"><span class="gl">Accuracy (Table 1)</span>
+        <div class="seg">
+          <button type="button" id="m-avg_acc" data-m="avg_acc">Average</button>
+          <button type="button" id="m-bcp_overall" data-m="bcp_overall">BrowseComp-Plus</button>
+          <button type="button" id="m-frames_acc" data-m="frames_acc">FRAMES</button>
+          <button type="button" id="m-monaco_f1" data-m="monaco_f1">MoNaCo F1</button>
+        </div>
+      </div>
+      <div class="tabgroup"><span class="gl">BrowseComp-Plus by difficulty</span>
+        <div class="seg">
+          <button type="button" id="m-bcp_easy" data-m="bcp_easy">Easy</button>
+          <button type="button" id="m-bcp_med" data-m="bcp_med">Medium</button>
+          <button type="button" id="m-bcp_hard" data-m="bcp_hard">Hard</button>
+        </div>
+      </div>
+      <div class="tabgroup"><span class="gl">Evidence-backed, Obs. (Table 2)</span>
+        <div class="seg">
+          <button type="button" id="m-obs_avg" data-m="obs_avg">Average</button>
+          <button type="button" id="m-obs_bcp" data-m="obs_bcp">BrowseComp-Plus</button>
+          <button type="button" id="m-obs_frames" data-m="obs_frames">FRAMES</button>
+          <button type="button" id="m-obs_monaco" data-m="obs_monaco">MoNaCo</button>
+        </div>
+      </div>
+    </div>
+    <div class="chart" id="chart" aria-live="polite"></div>
+    <div class="axis" aria-hidden="true"><span></span><div class="ticks" id="ticks"></div><span></span></div>
+    <p class="chart-note" id="chart-note"></p>
+    <div class="table-wrap"><table class="res" id="res-table"></table></div>
+    <p class="chart-note">Accuracy is official accuracy on BrowseComp-Plus (BCP, CF-150 split; 50 questions per difficulty) and FRAMES-824, and mean item-level F1 on MoNaCo-1315. Obs. keeps official credit only when the credited answer can be recovered from the evidence the harness saved. Averages weight the three benchmarks equally, with MoNaCo rescaled to 0-100. Bold: best in each column.</p>
+    <div class="col">
+    </div>
+  </section>
+
+  <section class="sec" id="BibTeX" aria-labelledby="cite-title">
+    <div class="bib-head">
+      <h2 id="cite-title">BibTeX</h2>
+      <div><span class="copied" id="copied" hidden>Copied</span><button type="button" class="copy" id="copy-bib">Copy</button></div>
+    </div>
+    <pre class="bib" id="bib">@article{turali2026paninidr,
+  title   = {{PANINI-DR}: Controlled Deep Research through Generative Semantic Workspaces},
+  author  = {Turali, M. Yigit and Rajesh, Shreyas and Lorasdagi, M. Efe and Duan, Chenda and Sharma, Kartik and Roychowdhury, Vwani},
+  journal = {arXiv preprint arXiv:2610.15208},
+  url     = {https://arxiv.org/abs/2610.15208},
+  year    = {2026}
+}</pre>
+  </section>
+
+  <footer>
+    <p>PANINI-DR · University of California, Los Angeles</p>
+    <p><a href="https://arxiv.org/abs/2610.15208" target="_blank" rel="noopener">arXiv:2610.15208</a> · <a href="https://github.com/roychowdhuryresearch/panini-dr" target="_blank" rel="noopener">GitHub</a></p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const SVGNS = "http://www.w3.org/2000/svg";
+
+  // ---- the plan (P): subquestion nodes, query hubs and relations ----
+  const NODES = {
+    sign:  { x: 30,  y: 118, w: 270, h: 98, label: "Signing date", value: "17 Sep 1978" },
+    pres:  { x: 365, y: 118, w: 270, h: 98, label: "President",    value: "Jimmy Carter" },
+    wife:  { x: 700, y: 118, w: 270, h: 98, label: "Wife",         value: "Rosalynn Carter" },
+    age:   { x: 365, y: 360, w: 270, h: 98, label: "Age",          value: "51", target: true },
+    birth: { x: 700, y: 360, w: 270, h: 98, label: "Birth date",   value: "18 Aug 1927" }
+  };
+  const HUBS = {
+    cda: { x: 45,  y: 22, w: 240, h: 42, label: "Camp David Accords", to: "sign" },
+    usp: { x: 397, y: 22, w: 206, h: 42, label: "U.S. President",     to: "pres" }
+  };
+  // state of every node in W0..W3
+  const STATES = [
+    { sign: "ready", pres: "ready", wife: "open",  birth: "open",  age: "target" },
+    { sign: "new",   pres: "new",   wife: "ready", birth: "open",  age: "target" },
+    { sign: "known", pres: "known", wife: "new",   birth: "ready", age: "target" },
+    { sign: "known", pres: "known", wife: "known", birth: "new",   age: "derived" }
+  ];
+  const W_NOTES = [
+    "plan from the Planner; nothing known yet",
+    "2 values admitted; President checked on the date",
+    "wife admitted",
+    "birth date admitted; age computed"
+  ];
+  const FOOT = ["", "", "", "submit_answer(“51”)"];
+
+  // ---- per-node details (hint and check wording follows the paper's examples) ----
+  const DETAIL = {
+    sign: {
+      title: "Signing date", type: "date",
+      hint: "When were the Camp David Accords signed?",
+      check: "the proposed date is when the Camp David Accords were signed",
+      from: "the query (Camp David Accords)",
+      how: "Typed resolver: one focused retrieval and one cited extraction. Code checks the type, the Verifier reviews it once. No extended research was needed.",
+      admitted: 1, status: "verified"
+    },
+    pres: {
+      title: "President", type: "person",
+      hint: "U.S. President in office on [signing date]",
+      check: "the person held office on the signing date, not merely a former president",
+      from: "the query (U.S. President) and the relation “in office on”",
+      how: "The typed resolver’s candidate failed review, so a ReAct Researcher took over: it searched, asked the Reader for quoted passages, and bound evidence to the “in office on” relation before the Verifier endorsed it.",
+      admitted: 1, status: "verified"
+    },
+    wife: {
+      title: "Wife", type: "person",
+      hint: "spouse of [president]  →  spouse of Jimmy Carter",
+      check: "the proposed person is the president’s spouse",
+      from: "the relation “spouse” from President",
+      how: "The hint’s placeholder is filled with the admitted president, so a focused lookup can find her.",
+      admitted: 2, status: "verified"
+    },
+    birth: {
+      title: "Birth date", type: "date",
+      hint: "When was [wife] born?  →  When was Rosalynn Carter born?",
+      check: "the proposed date is the birth date of [wife]",
+      from: "the relation “born on” from Wife",
+      how: "Needs the wife’s identity first; once she is admitted, the hint is instantiated and looked up.",
+      admitted: 3, status: "verified"
+    },
+    age: {
+      title: "Age ★", type: "number (completed years)",
+      hint: "none: computed, not researched",
+      check: "years between birth date and signing date",
+      from: "the answer target; inputs Birth date and Signing date",
+      how: "The constraint cascade runs the plan’s calculation in code once both dates are admitted: 18 Aug 1927 to 17 Sep 1978 is 51 completed years, because her birthday had already occurred that year. The result is recorded as DERIVED.",
+      admitted: 3, status: "derived"
+    },
+    cda: { title: "Camp David Accords", query: true, text: "Supplied by the question. Information from the query is already in the plan, so it needs no research." },
+    usp: { title: "U.S. President", query: true, text: "Supplied by the question. It anchors the President subquestion." }
+  };
+
+  // ---- what happens inside each step ----
+  const lane = (n, mark, html) => ({ n, mark, html });
+  const STEPS = [
+    {
+      title: "Before research", trans: "question → W₀",
+      lede: "The Planner writes the plan once; code checks it before any research starts.",
+      stages: [
+        { who: "Planner", kind: "LLM · once", text: "Turns the question into plan P: the subquestions, how they relate, the answer target (Age ★) and the calculation that produces it." },
+        { who: "Plan contract", kind: "code", text: "Checks one answer target, valid references and no cycles, and flags a hint that would need a value too early." },
+        { who: "Workspace", kind: "harness", html: "W<sub>0</sub> = (P, ∅): no findings yet. Signing date and President are ready, because they need no earlier answer." }
+      ]
+    },
+    {
+      title: "Inside step 1", trans: "W₀ → W₁",
+      stages: [
+        { who: "Orchestrator", kind: "LLM · picks the ready nodes", html: "Reads the workspace with <code>get_state</code> and dispatches both ready subquestions." },
+        { who: "Researchers", kind: "LLM · search + read corpus", lanes: [
+          lane("sign", "ok", "<b>Signing date</b>typed resolver"),
+          lane("pres", "no", "<b>President</b>typed resolver ✗ → ReAct<span class=\"redo\">↺ searches again after the Verifier’s feedback</span>")
+        ] },
+        { who: "Evidence gate", kind: "code · evidence bound?", lanes: [
+          lane("sign", "skip", "<b>Signing date</b>skip: typed-resolver proposals go straight to review"),
+          lane("pres", "ok", "<b>President</b>evidence bound to “in office on”")
+        ] },
+        { who: "Verifier", kind: "LLM · satisfied + unique?", lanes: [
+          lane("sign", "ok", "<b>Signing date</b>17 Sep 1978"),
+          lane("pres", "ok", "<b>President</b>Jimmy Carter")
+        ], reagan: true },
+        { who: "Admit to S", kind: "harness", text: "Both values are merged into the state together, marked VERIFIED, with their evidence." },
+        { who: "Constraint cascade", kind: "code", lanes: [ lane("age", "wait", "<b>Age ★</b>waits for the birth date") ],
+          html: "Then write S; P is unchanged: W<sub>1</sub> = (P, S<sub>1</sub>)" }
+      ]
+    },
+    {
+      title: "Step 2", trans: "W₁ → W₂",
+      lede: "Schematic, like the paper’s figure: the recorded run researched all four facts in one dispatch.",
+      stages: [
+        { who: "Orchestrator", kind: "LLM", text: "Wife is ready now: its hint needed the president, who is admitted." },
+        { who: "Researcher", kind: "LLM · typed resolver", html: "The hint <span class=\"hint\">spouse of [president]</span> becomes <span class=\"hint\">spouse of Jimmy Carter</span>; one retrieval and one cited extraction." },
+        { who: "Type check · Verifier", kind: "code · LLM", lanes: [ lane("wife", "ok", "<b>Wife</b>Rosalynn Carter") ] },
+        { who: "Admit · cascade", kind: "harness · code", lanes: [ lane("age", "wait", "<b>Age ★</b>still waits for the birth date") ] }
+      ]
+    },
+    {
+      title: "Step 3", trans: "W₂ → W₃",
+      lede: "Schematic, like the paper’s figure: the recorded run researched all four facts in one dispatch.",
+      stages: [
+        { who: "Researcher", kind: "LLM · typed resolver", html: "<span class=\"hint\">When was [wife] born?</span> becomes <span class=\"hint\">When was Rosalynn Carter born?</span>" },
+        { who: "Verifier", kind: "LLM", lanes: [ lane("birth", "ok", "<b>Birth date</b>18 Aug 1927: the birth date of Rosalynn Carter") ] },
+        { who: "Constraint cascade", kind: "code", lanes: [ lane("age", "ok", "<b>Age ★</b>18 Aug 1927 → 17 Sep 1978 = 51 completed years (DERIVED)") ] },
+        { who: "Orchestrator", kind: "LLM", html: "The answer target is resolved, so it submits: <code>submit_answer(“51”)</code>" }
+      ]
+    }
+  ];
+
+  // ---- state ----
+  let step = 0;
+  let selected = "pres";
+  const showReagan = true; // the paper's figure always shows the (hypothetical) rejected candidate
+  let timer = null;
+
+  const $ = (id) => document.getElementById(id);
+  const board = $("board");
+
+  function el(name, attrs, parent) {
+    const e = document.createElementNS(SVGNS, name);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function known(s) { return s === "new" || s === "known" || s === "derived"; }
+
+  function drawDefs() {
+    const defs = el("defs", {}, board);
+    [["arr-on", "var(--green)"], ["arr-off", "var(--line)"]].forEach(([id, c]) => {
+      const m = el("marker", { id, viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 9, markerHeight: 9, orient: "auto-start-reverse" }, defs);
+      el("path", { d: "M0,0 L10,5 L0,10 z", fill: c }, m);
+    });
+  }
+
+  function edge(d, on, opts) {
+    opts = opts || {};
+    const p = el("path", {
+      d, fill: "none",
+      stroke: on ? "var(--green)" : "var(--line)",
+      "stroke-width": on ? 3 : 1.6,
+      "marker-end": opts.noArrow ? "" : (on ? "url(#arr-on)" : "url(#arr-off)")
+    }, board);
+    if (opts.dotted) p.setAttribute("stroke-dasharray", on ? "2 6" : "2 5");
+    if (opts.dotted) p.setAttribute("stroke-linecap", "round");
+    return p;
+  }
+  function label(x, y, text, anchor) {
+    const t = el("text", { x, y, class: "e-label", "text-anchor": anchor || "middle" }, board);
+    t.textContent = text;
+  }
+  function check(x, y, color) {
+    el("circle", { cx: x, cy: y, r: 13, fill: color || "var(--green)" }, board);
+    el("path", { d: `M${x - 6},${y} l4,4.5 l8,-9`, fill: "none", stroke: "#fff", "stroke-width": 2.6, "stroke-linecap": "round", "stroke-linejoin": "round" }, board);
+  }
+  function cross(x, y) {
+    el("circle", { cx: x, cy: y, r: 13, fill: "var(--red)" }, board);
+    el("path", { d: `M${x - 5},${y - 5} l10,10 M${x + 5},${y - 5} l-10,10`, fill: "none", stroke: "#fff", "stroke-width": 2.6, "stroke-linecap": "round" }, board);
+  }
+  function lens(x, y) {
+    el("circle", { cx: x, cy: y, r: 8, fill: "var(--orange)" }, board);
+    el("circle", { cx: x - 1.3, cy: y - 1.3, r: 3, fill: "none", stroke: "#fff", "stroke-width": 1.5 }, board);
+    el("path", { d: `M${x + 1},${y + 1} l2.8,2.8`, stroke: "#fff", "stroke-width": 1.7, "stroke-linecap": "round" }, board);
+  }
+
+  function drawNode(id) {
+    const n = NODES[id];
+    const s = STATES[step][id];
+    const g = el("g", { class: "node" + (selected === id ? " selected" : ""), tabindex: 0, role: "button", "data-id": id }, board);
+    g.setAttribute("aria-label", `${n.label}: ${known(s) ? n.value : "unknown"}. Show details`);
+
+    if (s === "ready") {
+      el("rect", { x: n.x - 7, y: n.y - 7, width: n.w + 14, height: n.h + 14, rx: 18, fill: "var(--orange-soft)", stroke: "var(--orange)", "stroke-width": 2, "stroke-dasharray": "6 5" }, g);
+    }
+    let fill = "var(--card)", stroke = "var(--line)", sw = 1.8, dash = "6 5";
+    if (s === "new" || s === "derived") { fill = "var(--green)"; stroke = "var(--green)"; dash = ""; }
+    if (s === "known") { fill = "var(--green-pale)"; stroke = "var(--green-pale)"; dash = ""; }
+    if (s === "target") { stroke = "var(--ink)"; sw = 3; dash = ""; }
+    if (s === "ready") { stroke = "var(--orange)"; }
+    const r = el("rect", { class: "n-rect", x: n.x, y: n.y, width: n.w, height: n.h, rx: 13, fill, stroke, "stroke-width": sw }, g);
+    if (dash) r.setAttribute("stroke-dasharray", dash);
+    el("rect", { class: "sel-ring", x: n.x - 12, y: n.y - 12, width: n.w + 24, height: n.h + 24, rx: 20 }, g);
+
+    const onGreen = s === "new" || s === "derived";
+    const txtColor = onGreen ? "var(--on-green)" : (s === "known" ? "var(--green-text)" : "var(--ink)");
+    const lbl = el("text", { x: n.x + n.w / 2, y: n.y + 34, class: "n-label", "text-anchor": "middle", fill: onGreen ? "var(--on-green)" : (s === "known" ? "var(--green-text)" : "var(--muted)") }, g);
+    lbl.textContent = n.label + (n.target ? " ★" : "");
+    const val = el("text", { x: n.x + n.w / 2, y: n.y + 74, class: "n-value", "text-anchor": "middle", fill: known(s) ? txtColor : "var(--line)" }, g);
+    val.textContent = known(s) ? n.value : "?";
+
+    if (n.target) { // "code" chip: this node is computed in code
+      const done = s === "derived";
+      const cx = n.x + 6, cy = n.y - 30;
+      el("rect", { x: cx, y: cy, width: done ? 78 : 58, height: 26, rx: 13, fill: done ? "var(--green)" : "var(--ground)", stroke: done ? "var(--green)" : "var(--hair)", "stroke-width": 1.5 }, g);
+      const t = el("text", { x: cx + (done ? 39 : 29), y: cy + 18, class: "chip-text", "text-anchor": "middle", fill: done ? "var(--on-green)" : "var(--ink)" }, g);
+      t.textContent = done ? "code ✓" : "code";
+    }
+    if (s === "new" && !n.target) lens(n.x + 2, n.y + 2);
+
+    g.addEventListener("click", () => select(id));
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(id); } });
+  }
+
+  function drawHub(id) {
+    const h = HUBS[id];
+    const g = el("g", { class: "node" + (selected === id ? " selected" : ""), tabindex: 0, role: "button", "data-id": id }, board);
+    g.setAttribute("aria-label", `${h.label}: from the question. Show details`);
+    el("rect", { class: "hub-rect", x: h.x, y: h.y, width: h.w, height: h.h, rx: 21 }, g);
+    el("rect", { class: "sel-ring", x: h.x - 8, y: h.y - 8, width: h.w + 16, height: h.h + 16, rx: 27 }, g);
+    const t = el("text", { x: h.x + h.w / 2, y: h.y + 28, class: "hub-text", "text-anchor": "middle" }, g);
+    t.textContent = h.label;
+    g.addEventListener("click", () => select(id));
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(id); } });
+  }
+
+  function drawBoard() {
+    while (board.firstChild) board.removeChild(board.firstChild);
+    drawDefs();
+    const S = STATES[step];
+    // query hubs to their subquestions
+    edge("M165,64 L165,110", false, { dotted: true, noArrow: true });
+    edge("M500,64 L500,110", false, { dotted: true, noArrow: true });
+    // relations
+    edge("M300,167 L357,167", known(S.sign), { dotted: true, noArrow: true });
+    label(333, 100, "in office on");
+    edge("M635,167 L692,167", known(S.pres));
+    label(667, 100, "spouse");
+    edge("M835,216 L835,352", known(S.wife));
+    label(848, 292, "born on", "start");
+    edge("M700,409 L643,409", known(S.birth));
+    label(668, 343, "years between");
+    edge("M165,216 C165,318 250,409 357,409", known(S.sign));
+    label(150, 330, "years between", "middle");
+    if (step >= 1) check(332, 167);
+    Object.keys(HUBS).forEach(drawHub);
+    Object.keys(NODES).forEach(drawNode);
+  }
+
+  function markHTML(m) {
+    const sym = { ok: "✓", no: "✗", skip: "–", wait: "…" }[m] || "";
+    return `<span class="mark ${m}" aria-hidden="true">${sym}</span>`;
+  }
+
+  function drawInside() {
+    const s = STEPS[step];
+    $("in-title").textContent = s.title;
+    $("in-trans").textContent = s.trans;
+    const body = $("in-body");
+    let html = s.lede ? `<p class="lede">${s.lede}</p>` : "";
+    html += `<div class="pipe">`;
+    s.stages.forEach((st, i) => {
+      if (i > 0) html += `<div class="arrow" aria-hidden="true">→</div>`;
+      html += `<div class="st"><div class="st-top"><span class="st-who">${st.who}</span><span class="st-kind">${st.kind}</span></div>`;
+      if (st.text) html += `<p class="st-text">${st.text}</p>`;
+      if (st.html && !st.lanes) html += `<p class="st-text">${st.html}</p>`;
+      if (st.lanes) {
+        html += `<div class="lanes">`;
+        st.lanes.forEach((l) => {
+          if (st.reagan && showReagan && l.n === "pres") {
+            html += `<div class="lane reject" data-n="pres">${markHTML("no")}<b>President · hypothetical</b><span class="who">Ronald Reagan</span>: not in office on 17 Sep 1978</div>`;
+            html += `<div class="lane" data-n="pres-ok">${markHTML("ok")}${l.html}<span style="color:var(--muted)">, after more research</span></div>`;
+          } else {
+            html += `<div class="lane" data-n="${l.n}">${markHTML(l.mark)}${l.html}</div>`;
+          }
+        });
+        html += `</div>`;
+        if (st.html) html += `<p class="st-text">${st.html}</p>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+    body.innerHTML = html;
+    if (step === 1 && showReagan) drawLoop();
+  }
+
+  // The Verifier's rejection loops back to the President Researcher (dashed red, as in the paper's figure).
+  function drawLoop() {
+    const pipe = $("in-body").querySelector(".pipe");
+    if (!pipe) return;
+    pipe.classList.add("has-loop");
+    const old = pipe.querySelector("svg.loop");
+    if (old) old.remove();
+    const sts = pipe.querySelectorAll(".st");
+    if (sts.length < 4) return;
+    const from = sts[3].querySelector(".lane.reject");
+    const to = sts[1].querySelector('[data-n="pres"]');
+    if (!from || !to) return;
+    const P = pipe.getBoundingClientRect();
+    const rel = (r) => ({ cx: r.left - P.left + pipe.scrollLeft + r.width / 2, bottom: r.bottom - P.top + pipe.scrollTop });
+    const a = rel(from.getBoundingClientRect()), s3 = rel(sts[3].getBoundingClientRect());
+    const b = rel(to.getBoundingClientRect()), s1 = rel(sts[1].getBoundingClientRect());
+    const W = pipe.scrollWidth, H = pipe.scrollHeight, band = H - 21;
+    const svg = el("svg", { class: "loop", width: W, height: H, viewBox: `0 0 ${W} ${H}`, "aria-hidden": "true" });
+    const defs = el("defs", {}, svg);
+    const mk = el("marker", { id: "loop-arr", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 8, markerHeight: 8, orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M0,0 L10,5 L0,10 z", fill: "var(--red)" }, mk);
+    el("path", { d: `M${a.cx},${s3.bottom} V${band} H${b.cx} V${s1.bottom + 2}`, fill: "none", stroke: "var(--red)", "stroke-width": 1.8, "stroke-dasharray": "5 4", "marker-end": "url(#loop-arr)" }, svg);
+    const t = el("text", { x: (a.cx + b.cx) / 2, y: band + 14, "text-anchor": "middle" }, svg);
+    t.textContent = "rejected → feedback → the Researcher searches again";
+    pipe.appendChild(svg);
+  }
+
+  function statusFor(id) {
+    const d = DETAIL[id];
+    if (d.query) return ["query", "from the question"];
+    const s = STATES[step][id];
+    if (s === "open") return ["open", "unresolved"];
+    if (s === "ready") return ["ready", "ready to research"];
+    if (s === "target") return ["target", "answer target, waiting"];
+    if (s === "derived") return ["derived", "derived in W₃"];
+    return ["verified", `verified in W${["₀", "₁", "₂", "₃"][d.admitted]}`];
+  }
+
+  function drawDetails() {
+    const d = DETAIL[selected];
+    const [cls, txt] = statusFor(selected);
+    let html = `<h3>${d.title} <span class="status ${cls}">${txt}</span></h3>`;
+    if (d.query) {
+      html += `<p class="tip" style="margin-top:8px;color:var(--ink);font-size:14.5px">${d.text}</p>`;
+    } else {
+      const n = NODES[selected];
+      const isKnown = known(STATES[step][selected]);
+      html += `<dl class="kv">
+        <dt>Value</dt><dd>${isKnown ? `<b>${n.value}</b>` : "not known yet"}</dd>
+        <dt>Expected type</dt><dd>${d.type}</dd>
+        <dt>Retrieval hint</dt><dd><span class="mono">${d.hint}</span></dd>
+        <dt>Must satisfy</dt><dd>${d.check}</dd>
+        <dt>Depends on</dt><dd>${d.from}</dd>
+        <dt>How</dt><dd>${d.how}</dd>
+      </dl>`;
+    }
+    html += `<p class="tip">Click any box in the workspace to inspect it. The hints and checks follow the wording of the paper’s examples.</p>`;
+    $("details").innerHTML = html;
+  }
+
+  function render() {
+    for (let i = 0; i < 4; i++) $("step-" + i).setAttribute("aria-pressed", String(i === step));
+    $("prev").disabled = step === 0;
+    $("next").disabled = step === 3;
+    const sub = ["₀", "₁", "₂", "₃"][step];
+    $("w-title").innerHTML = `W<sub>${step}</sub> <span class="eq">= (P, ${step === 0 ? "∅" : "S" + sub})</span>`;
+    $("w-note").textContent = W_NOTES[step];
+    $("board-foot").textContent = FOOT[step];
+    const ans = $("answer");
+    ans.classList.toggle("pending", step < 3);
+    $("answer-val").textContent = step < 3 ? "?" : "51";
+    drawBoard();
+    drawInside();
+    drawDetails();
+  }
+
+  function go(i) {
+    step = Math.max(0, Math.min(3, i));
+    try { history.replaceState(null, "", "#w" + step); } catch (e) { /* ignore */ }
+    render();
+  }
+  function select(id) { selected = id; drawBoard(); drawDetails(); }
+
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+    $("play").textContent = "▶ Play";
+  }
+  function play() {
+    if (timer) { stop(); return; }
+    if (step === 3) go(0);
+    $("play").textContent = "❚❚ Pause";
+    timer = setInterval(() => {
+      if (step >= 3) { stop(); return; }
+      go(step + 1);
+    }, 4500);
+  }
+
+  document.querySelectorAll(".steps button").forEach((b) => b.addEventListener("click", () => { stop(); go(+b.dataset.step); }));
+  $("prev").addEventListener("click", () => { stop(); go(step - 1); });
+  $("next").addEventListener("click", () => { stop(); go(step + 1); });
+  $("play").addEventListener("click", () => {
+    const f = $("figure").getBoundingClientRect();
+    if (f.top < 0 || f.bottom > window.innerHeight) {
+      const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      $("figure").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    }
+    play();
+  });
+  let resizeT = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(() => { if (step === 1 && showReagan) drawLoop(); }, 120);
+  });
+  $("figure").addEventListener("keydown", (e) => {
+    if (e.target && (e.target.tagName === "INPUT")) return;
+    if (e.key === "ArrowRight") { stop(); go(step + 1); }
+    if (e.key === "ArrowLeft") { stop(); go(step - 1); }
+  });
+
+  $("copy-bib").addEventListener("click", () => {
+    const text = $("bib").textContent;
+    const done = () => { const c = $("copied"); c.hidden = false; setTimeout(() => { c.hidden = true; }, 1800); };
+    const fallback = () => {
+      const range = document.createRange(); range.selectNodeContents($("bib"));
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      $("copied").textContent = "Selected: press Ctrl+C / ⌘C"; $("copied").hidden = false;
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
+      else fallback();
+    } catch (e) { fallback(); }
+  });
+
+  const m = /^#w([0-3])$/.exec(location.hash || "");
+  step = m ? +m[1] : 0;
+  render();
+  // Open at W0 and play through to W3 once; any click on the controls takes over.
+  if (!m) setTimeout(() => { if (!timer && step === 0) play(); }, 1400);
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  // Values from the paper: Table 1 (BrowseComp-Plus CF-150 accuracy, %) and Table 2 (observed support).
+  const NAMES = ["PyRAG", "Re-TRAC", "Omni-Decision", "HyMem", "Open Deep Search", "IterResearch", "SLEUTH", "PANINI-DR"];
+  const DATA = {
+    avg_acc:     [44.6, 52.9, 49.3, 60.2, 62.1, 60.5, 63.4, 69.1],
+    frames_acc:  [61.9, 64.9, 64.6, 70.8, 76.0, 70.5, 77.2, 79.1],
+    monaco_f1:   [0.446, 0.544, 0.359, 0.612, 0.571, 0.564, 0.556, 0.549],
+    bcp_overall: [27.3, 39.3, 47.3, 48.7, 53.3, 54.7, 57.3, 73.3],
+    bcp_easy:    [56, 70, 84, 82, 82, 84, 86, 92],
+    bcp_med:     [20, 32, 48, 52, 50, 60, 58, 76],
+    bcp_hard:    [6, 16, 10, 12, 28, 20, 28, 52],
+    obs_bcp:     [26.0, 14.0, 45.3, 46.7, 51.3, 51.3, 54.0, 70.7],
+    obs_frames:  [46.6, 46.1, 53.9, 36.7, 47.6, 45.9, 55.2, 66.1],
+    obs_monaco:  [0.332, 0.396, 0.275, 0.388, 0.325, 0.390, 0.396, 0.458],
+    obs_avg:     [35.3, 33.2, 42.2, 40.7, 43.8, 45.4, 49.6, 60.9]
+  };
+  const META = {
+    avg_acc:     { max: 100, unit: "", note: "Average of BrowseComp-Plus accuracy, FRAMES accuracy and MoNaCo F1 (rescaled to 0-100), weighted equally (paper Table 1)." },
+    frames_acc:  { max: 100, unit: "%", note: "FRAMES-824 official accuracy (paper Table 1)." },
+    monaco_f1:   { max: 1, unit: "", dec: 3, note: "MoNaCo-1315 mean item-level F1 (paper Table 1)." },
+    bcp_overall: { max: 100, unit: "%", note: "BrowseComp-Plus CF-150 official accuracy over 150 questions (paper Table 1)." },
+    bcp_easy:    { max: 100, unit: "%", note: "Accuracy on the 50 easy questions of BrowseComp-Plus CF-150 (paper Table 1)." },
+    bcp_med:     { max: 100, unit: "%", note: "Accuracy on the 50 medium questions of BrowseComp-Plus CF-150 (paper Table 1)." },
+    bcp_hard:    { max: 100, unit: "%", note: "Accuracy on the 50 hard questions of BrowseComp-Plus CF-150: 26 of 50 for PANINI-DR, 14 of 50 for the next best (paper Table 1)." },
+    obs_bcp:     { max: 100, unit: "", note: "Observed support (Obs.) keeps official credit only when the credited answer can be recovered from the evidence the harness saved (paper Table 2)." },
+    obs_frames:  { max: 100, unit: "", note: "Observed support on FRAMES-824 (paper Table 2)." },
+    obs_monaco:  { max: 1, unit: "", dec: 3, note: "Observed support on MoNaCo-1315, as mean F1 over the items backed by saved evidence (paper Table 2)." },
+    obs_avg:     { max: 100, unit: "", note: "Observed support averaged over BrowseComp-Plus, FRAMES and MoNaCo, with MoNaCo F1 rescaled to 0-100 (paper Table 2)." }
+  };
+  let metric = "avg_acc";
+  const $ = (id) => document.getElementById(id);
+
+  function fmt(v, m) {
+    const d = m.dec != null ? m.dec : (Number.isInteger(v) && m.unit === "%" ? 0 : 1);
+    return v.toFixed(d) + m.unit;
+  }
+  function draw() {
+    const m = META[metric];
+    const rows = NAMES.map((n, i) => ({ n, v: DATA[metric][i] })).sort((a, b) => b.v - a.v);
+    $("chart").innerHTML = rows.map((r) => {
+      const ours = r.n === "PANINI-DR";
+      return `<div class="bar-row${ours ? " ours" : ""}"><span class="name" title="${r.n}">${r.n}</span>` +
+        `<span class="track"><span class="fill" style="width:${(100 * r.v / m.max).toFixed(2)}%"></span></span>` +
+        `<span class="v">${fmt(r.v, m)}</span></div>`;
+    }).join("");
+    const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => {
+      const v = f * m.max;
+      return `<span>${m.max === 1 ? v.toFixed(2) : Math.round(v)}${m.unit}</span>`;
+    });
+    $("ticks").innerHTML = ticks.join("");
+    $("chart-note").textContent = m.note + " All harnesses use gpt-oss-120b, the same frozen corpora and the same retrieval service.";
+    Object.keys(DATA).forEach((k) => $("m-" + k).setAttribute("aria-pressed", String(k === metric)));
+  }
+  Object.keys(DATA).forEach((k) => $("m-" + k).addEventListener("click", () => { metric = k; draw(); }));
+  draw();
+
+  // Full results table: every number from Tables 1 and 2, best per column in bold.
+  const COLS = [
+    ["bcp_easy", "Easy", 0], ["bcp_med", "Med.", 0], ["bcp_hard", "Hard", 0], ["bcp_overall", "Overall", 1],
+    ["frames_acc", "Acc.", 1, true], ["monaco_f1", "F1", 3, true], ["avg_acc", "Avg.", 1, true],
+    ["obs_bcp", "BCP", 1, true], ["obs_frames", "FRAMES", 1], ["obs_monaco", "MoNaCo", 3], ["obs_avg", "Avg.", 1]
+  ];
+  const best = {};
+  COLS.forEach(([k]) => { best[k] = Math.max.apply(null, DATA[k]); });
+  let t = '<thead><tr><th></th><th class="grp" colspan="4">BCP CF-150 accuracy (%)</th><th class="grp sep">FRAMES</th><th class="grp sep">MoNaCo</th><th class="sep"></th><th class="grp sep" colspan="4">Evidence-backed, Obs.</th></tr>';
+  t += '<tr><th>Harness</th>' + COLS.map(([k, label, d, sep]) => `<th${sep ? ' class="sep"' : ""}>${label}</th>`).join("") + "</tr></thead><tbody>";
+  NAMES.forEach((n, i) => {
+    t += `<tr${n === "PANINI-DR" ? ' class="ours"' : ""}><td>${n}</td>` + COLS.map(([k, label, d, sep]) => {
+      const v = DATA[k][i];
+      const cls = [sep ? "sep" : "", v === best[k] ? "best" : ""].filter(Boolean).join(" ");
+      return `<td${cls ? ` class="${cls}"` : ""}>${v.toFixed(d)}</td>`;
+    }).join("") + "</tr>";
+  });
+  $("res-table").innerHTML = t + "</tbody>";
+})();
+</script>
+
+</body>
+</html>
