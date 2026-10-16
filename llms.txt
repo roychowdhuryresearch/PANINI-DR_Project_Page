@@ -14,6 +14,7 @@ Not to be confused with Panini (arXiv:2602.15156, continual learning in token sp
 
 - [Project page](https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/): interactive Figure 1, results, citation
 - [Paper on arXiv](https://arxiv.org/abs/2610.15208)
+- [Paper page on Hugging Face](https://huggingface.co/papers/2610.15208)
 - [Code on GitHub](https://github.com/roychowdhuryresearch/panini-dr): Apache-2.0; paper configuration, graders, benchmark preparation, bring-your-own-dataset, and `panini-dr verify`
 
 ## Authors
