@@ -17,3 +17,17 @@ Key results (all harnesses use gpt-oss-120b, the same frozen corpora and the sam
 ## Authors
 
 M. Yigit Turali and Shreyas Rajesh (equal contribution), M. Efe Lorasdagi, Chenda Duan, Kartik Sharma, Vwani Roychowdhury (University of California, Los Angeles)
+
+## Technical stack
+
+- Language model, all roles: gpt-oss-120b served with vLLM 0.24.0 (OpenAI-compatible API; one 96 GB GPU at a 65,536-token context, or two for throughput)
+- Reranker: jinaai/jina-reranker-v3.5 served with vLLM 0.26.0 (non-commercial licence)
+- Dense retrieval: Qwen/Qwen3-Embedding-8B query encoder with FAISS; lexical retrieval: BM25 (Pyserini/Lucene for BrowseComp-Plus)
+- Python 3.12, installed with uv; command-line tool `panini-dr` with `run`, `prepare`, `score` and `verify`
+
+## Documentation
+
+- [Install and serve the models](https://github.com/roychowdhuryresearch/panini-dr#install)
+- [Run on your own data](https://github.com/roychowdhuryresearch/panini-dr#run-on-your-own-data)
+- [Reproduce the paper](https://github.com/roychowdhuryresearch/panini-dr/blob/main/REPRODUCE.md)
+- [Check an installation against the paper's code (`panini-dr verify`)](https://github.com/roychowdhuryresearch/panini-dr#check-this-code-against-the-papers-runs-panini-dr-verify)

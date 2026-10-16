@@ -361,7 +361,10 @@ footer p { margin: 4px 0; }
    ]
   },
   {
-   "@type": "SoftwareSourceCode",
+   "@type": [
+    "SoftwareSourceCode",
+    "SoftwareApplication"
+   ],
    "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/#code",
    "name": "PANINI-DR",
    "description": "Deep-research harness from the paper PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces.",
@@ -420,7 +423,17 @@ footer p { margin: 4px 0; }
    ],
    "citation": {
     "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/#paper"
-   }
+   },
+   "applicationCategory": "DeveloperApplication",
+   "operatingSystem": "Linux",
+   "softwareVersion": "0.1.0",
+   "runtimePlatform": "Python 3.12",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+   },
+   "downloadUrl": "https://github.com/roychowdhuryresearch/panini-dr"
   },
   {
    "@type": "WebPage",
@@ -467,6 +480,30 @@ footer p { margin: 4px 0; }
      "acceptedAnswer": {
       "@type": "Answer",
       "text": "Two ideas: research state is kept explicitly in a shared workspace instead of only in a growing conversation, and every intermediate finding is verified against its evidence before later steps use it. Ablations in the paper show that both the plan-and-state structure and verification improve accuracy."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How does PANINI-DR keep research state across agent calls?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Instead of relying on a long, growing conversation, PANINI-DR keeps the investigation in a shared workspace that pairs the plan (the subquestions and how they depend on each other) with the admitted findings, each with its evidence and a review status (verified, warned or derived). The Orchestrator reads this workspace to decide which subquestions are ready, and only admitted findings are passed to the subquestions that depend on them."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How do I check that my installation reproduces the paper's code?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Run panini-dr verify. It replays recorded model, reranker and embedding responses from FRAMES questions through your installation, on a CPU with no network, and requires its answers and traces to match those of the code behind the paper exactly. Reproducing the paper's numbers themselves needs the model servers and the benchmark data; REPRODUCE.md in the repository gives the commands, and live runs vary slightly because the LLM server is not bit-deterministic."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How do I run PANINI-DR on my own dataset?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Write your questions as questions.jsonl and your documents as docs.jsonl, run panini-dr prepare to build the corpus and its search indexes, then panini-dr run on the prepared folder and panini-dr score to grade the answers. The repository README has the exact formats and commands."
      }
     },
     {
@@ -654,6 +691,12 @@ footer p { margin: 4px 0; }
         <p>PANINI-DR has the best average accuracy across BrowseComp-Plus, FRAMES and MoNaCo (69.1, against 63.4 for SLEUTH). It also has the highest observed support, the share of answer credit that can be recovered from the evidence each harness saved, on all three benchmarks (average 60.9, against 49.6).</p>
         <h3>What makes PANINI-DR different from other deep-research agents?</h3>
         <p>Two ideas: research state is kept explicitly in a shared workspace instead of only in a growing conversation, and every intermediate finding is verified against its evidence before later steps use it. Ablations in the paper show that both the plan-and-state structure and verification improve accuracy.</p>
+        <h3>How does PANINI-DR keep research state across agent calls?</h3>
+        <p>Instead of relying on a long, growing conversation, PANINI-DR keeps the investigation in a shared workspace that pairs the plan (the subquestions and how they depend on each other) with the admitted findings, each with its evidence and a review status (verified, warned or derived). The Orchestrator reads this workspace to decide which subquestions are ready, and only admitted findings are passed to the subquestions that depend on them.</p>
+        <h3>How do I check that my installation reproduces the paper&#x27;s code?</h3>
+        <p>Run panini-dr verify. It replays recorded model, reranker and embedding responses from FRAMES questions through your installation, on a CPU with no network, and requires its answers and traces to match those of the code behind the paper exactly. Reproducing the paper&#x27;s numbers themselves needs the model servers and the benchmark data; REPRODUCE.md in the repository gives the commands, and live runs vary slightly because the LLM server is not bit-deterministic.</p>
+        <h3>How do I run PANINI-DR on my own dataset?</h3>
+        <p>Write your questions as questions.jsonl and your documents as docs.jsonl, run panini-dr prepare to build the corpus and its search indexes, then panini-dr run on the prepared folder and panini-dr score to grade the answers. The repository README has the exact formats and commands.</p>
         <h3>Is the PANINI-DR code available?</h3>
         <p>Yes. The code is open source under the Apache-2.0 licence at <a href="https://github.com/roychowdhuryresearch/panini-dr">github.com/roychowdhuryresearch/panini-dr</a>. It includes the paper configuration, the graders, benchmark preparation scripts, support for running on your own dataset, and panini-dr verify, a CPU-only check that an installation reproduces the paper code&#x27;s decisions exactly.</p>
         <h3>Who wrote PANINI-DR?</h3>
