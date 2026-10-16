@@ -6,6 +6,8 @@
 <title>PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces</title>
 <meta name="description" content="PANINI-DR is a deep-research harness that keeps an explicit research workspace and verifies each finding before it is reused. 73.3% on BrowseComp-Plus, 16.0 points above the next-best harness.">
 <meta name="author" content="M. Yigit Turali, Shreyas Rajesh, M. Efe Lorasdagi, Chenda Duan, Kartik Sharma, Vwani Roychowdhury">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<link rel="alternate" type="text/plain" title="LLM-readable summary" href="llms.txt">
 <link rel="canonical" href="https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5d50'/%3E%3Crect x='6' y='8' width='9' height='7' rx='2' fill='%23fff'/%3E%3Crect x='17' y='8' width='9' height='7' rx='2' fill='%23dde8e1'/%3E%3Crect x='11.5' y='18' width='9' height='7' rx='2' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -249,6 +251,8 @@ section.sec h2 { font-family: var(--title); font-weight: 500; color: var(--stron
 .justify p { margin: 0 0 12px; }
 .ideas h3 { font-family: var(--title); font-weight: 500; color: var(--strong); font-size: 20px; margin: 16px 0 4px; }
 .ideas p { margin: 0; }
+.faq h3 { font-family: var(--title); font-weight: 700; color: var(--strong); font-size: 17px; margin: 16px 0 4px; }
+.faq p { margin: 0; text-align: justify; }
 pre.bib { background: var(--soft); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 0; font: 13.5px/1.55 var(--mono); color: var(--strong); }
 .bib-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
 .bib-head h2 { text-align: left !important; margin: 0 !important; }
@@ -272,6 +276,220 @@ footer p { margin: 4px 0; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
+<meta name="keywords" content="PANINI-DR, deep research, deep research agent, multi-agent harness, LLM agents, research workspace, Generative Semantic Workspace, GSW, verification, BrowseComp-Plus, FRAMES, MoNaCo, question answering">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "ScholarlyArticle",
+   "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/#paper",
+   "headline": "PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces",
+   "name": "PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces",
+   "author": [
+    {
+     "@type": "Person",
+     "name": "M. Yigit Turali",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Shreyas Rajesh",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "M. Efe Lorasdagi",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Chenda Duan",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Kartik Sharma",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Vwani Roychowdhury",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    }
+   ],
+   "datePublished": "2026-10-10",
+   "url": "https://arxiv.org/abs/2610.15208",
+   "sameAs": [
+    "https://arxiv.org/abs/2610.15208",
+    "https://arxiv.org/pdf/2610.15208"
+   ],
+   "identifier": "arXiv:2610.15208",
+   "abstract": "Deep research requires connecting multiple steps of search, reasoning, and computation, with intermediate findings guiding what to investigate next. As investigations grow, agents must maintain research state across model calls and check findings before errors propagate into subsequent work. We introduce PANINI-DR, a multi-agent harness that separates coordination of the overall investigation from the research and verification of individual subquestions. A shared workspace, built on the Generative Semantic Workspace representation, records subquestions, their dependencies, findings, and supporting evidence. Researchers investigate individual subquestions, while a separate verification agent checks proposed answers against those subquestions and their evidence. Verification feedback guides further investigation, and recorded findings inform subsequent assignments. We evaluate PANINI-DR on BrowseComp-Plus, FRAMES, and MoNaCo against seven state-of-the-art deep-research harnesses, all using a shared language-model backbone and frozen corpora. PANINI-DR achieves the strongest average performance across the three benchmarks. On BrowseComp-Plus, it achieves 73.3% accuracy, outperforming the next-best harness by 16.0 points. Its advantage is strongest on hard questions, where it answers nearly twice as many as the next-best harness. Ablations further show that structured planning and persistent state improve performance, as does checking each finding against its cited evidence before it is reused. Because a model can answer correctly from memory alone, we also analyze the evidence retained by each harness. PANINI-DR achieves the highest answer recoverability from saved evidence on all three benchmarks, while complementary claim-support audits show stronger evidence-backed answers. Accounting for this evidence changes how harnesses compare and further strengthens PANINI-DR's advantage.",
+   "inLanguage": "en",
+   "keywords": [
+    "deep research",
+    "deep research agent",
+    "multi-agent harness",
+    "LLM agents",
+    "research workspace",
+    "Generative Semantic Workspace",
+    "verification",
+    "BrowseComp-Plus",
+    "FRAMES",
+    "MoNaCo",
+    "retrieval-augmented generation",
+    "question answering"
+   ]
+  },
+  {
+   "@type": "SoftwareSourceCode",
+   "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/#code",
+   "name": "PANINI-DR",
+   "description": "Deep-research harness from the paper PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces.",
+   "codeRepository": "https://github.com/roychowdhuryresearch/panini-dr",
+   "programmingLanguage": "Python",
+   "license": "https://www.apache.org/licenses/LICENSE-2.0",
+   "author": [
+    {
+     "@type": "Person",
+     "name": "M. Yigit Turali",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Shreyas Rajesh",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "M. Efe Lorasdagi",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Chenda Duan",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Kartik Sharma",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    },
+    {
+     "@type": "Person",
+     "name": "Vwani Roychowdhury",
+     "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Los Angeles"
+     }
+    }
+   ],
+   "citation": {
+    "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/#paper"
+   }
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/",
+   "url": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/",
+   "name": "PANINI-DR project page",
+   "about": {
+    "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/#paper"
+   },
+   "mainEntity": {
+    "@id": "https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/#paper"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "What is PANINI-DR?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "PANINI-DR is a multi-agent deep-research harness for answering hard multi-step questions over a document collection. An Orchestrator coordinates the investigation through a shared research workspace, built on the Generative Semantic Workspace (GSW) representation, that records subquestions, their dependencies, findings and evidence. Researcher agents investigate individual subquestions, and a separate Verifier checks each proposed answer against its subquestion and cited evidence before it is reused."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How well does PANINI-DR do on BrowseComp-Plus?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "On BrowseComp-Plus (CF-150 split) PANINI-DR reaches 73.3% accuracy, 16.0 points above the next-best of seven state-of-the-art deep-research harnesses (SLEUTH, 57.3%), with all harnesses using the same language model (gpt-oss-120b), frozen corpora and retrieval service. On the hard questions it answers 52%, against 28% for the next best."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How does PANINI-DR compare on FRAMES and MoNaCo?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "PANINI-DR has the best average accuracy across BrowseComp-Plus, FRAMES and MoNaCo (69.1, against 63.4 for SLEUTH). It also has the highest observed support, the share of answer credit that can be recovered from the evidence each harness saved, on all three benchmarks (average 60.9, against 49.6)."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What makes PANINI-DR different from other deep-research agents?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Two ideas: research state is kept explicitly in a shared workspace instead of only in a growing conversation, and every intermediate finding is verified against its evidence before later steps use it. Ablations in the paper show that both the plan-and-state structure and verification improve accuracy."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is the PANINI-DR code available?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. The code is open source under the Apache-2.0 licence at https://github.com/roychowdhuryresearch/panini-dr. It includes the paper configuration, the graders, benchmark preparation scripts, support for running on your own dataset, and panini-dr verify, a CPU-only check that an installation reproduces the paper code's decisions exactly."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Who wrote PANINI-DR?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "M. Yigit Turali and Shreyas Rajesh (equal contribution), M. Efe Lorasdagi, Chenda Duan, Kartik Sharma and Vwani Roychowdhury, University of California, Los Angeles. The paper is arXiv:2610.15208."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <div class="container" style="max-width:1200px">
@@ -414,12 +632,33 @@ footer p { margin: 4px 0; }
         </div>
       </div>
     </div>
-    <div class="chart" id="chart" aria-live="polite"></div>
+    <div class="chart" id="chart" aria-live="polite"><div class="bar-row ours"><span class="name" title="PANINI-DR">PANINI-DR</span><span class="track"><span class="fill" style="width:69.10%"></span></span><span class="v">69.1</span></div><div class="bar-row"><span class="name" title="SLEUTH">SLEUTH</span><span class="track"><span class="fill" style="width:63.40%"></span></span><span class="v">63.4</span></div><div class="bar-row"><span class="name" title="Open Deep Search">Open Deep Search</span><span class="track"><span class="fill" style="width:62.10%"></span></span><span class="v">62.1</span></div><div class="bar-row"><span class="name" title="IterResearch">IterResearch</span><span class="track"><span class="fill" style="width:60.50%"></span></span><span class="v">60.5</span></div><div class="bar-row"><span class="name" title="HyMem">HyMem</span><span class="track"><span class="fill" style="width:60.20%"></span></span><span class="v">60.2</span></div><div class="bar-row"><span class="name" title="Re-TRAC">Re-TRAC</span><span class="track"><span class="fill" style="width:52.90%"></span></span><span class="v">52.9</span></div><div class="bar-row"><span class="name" title="Omni-Decision">Omni-Decision</span><span class="track"><span class="fill" style="width:49.30%"></span></span><span class="v">49.3</span></div><div class="bar-row"><span class="name" title="PyRAG">PyRAG</span><span class="track"><span class="fill" style="width:44.60%"></span></span><span class="v">44.6</span></div></div>
     <div class="axis" aria-hidden="true"><span></span><div class="ticks" id="ticks"></div><span></span></div>
     <p class="chart-note" id="chart-note"></p>
-    <div class="table-wrap"><table class="res" id="res-table"></table></div>
+    <div class="table-wrap"><table class="res" id="res-table"><thead><tr><th></th><th class="grp" colspan="4">BCP CF-150 accuracy (%)</th><th class="grp sep">FRAMES</th><th class="grp sep">MoNaCo</th><th class="sep"></th><th class="grp sep" colspan="4">Evidence-backed, Obs.</th></tr><tr><th>Harness</th><th>Easy</th><th>Med.</th><th>Hard</th><th>Overall</th><th class="sep">Acc.</th><th class="sep">F1</th><th class="sep">Avg.</th><th class="sep">BCP</th><th>FRAMES</th><th>MoNaCo</th><th>Avg.</th></tr></thead><tbody><tr><td>PyRAG</td><td>56</td><td>20</td><td>6</td><td>27.3</td><td class="sep">61.9</td><td class="sep">0.446</td><td class="sep">44.6</td><td class="sep">26.0</td><td>46.6</td><td>0.332</td><td>35.3</td></tr><tr><td>Re-TRAC</td><td>70</td><td>32</td><td>16</td><td>39.3</td><td class="sep">64.9</td><td class="sep">0.544</td><td class="sep">52.9</td><td class="sep">14.0</td><td>46.1</td><td>0.396</td><td>33.2</td></tr><tr><td>Omni-Decision</td><td>84</td><td>48</td><td>10</td><td>47.3</td><td class="sep">64.6</td><td class="sep">0.359</td><td class="sep">49.3</td><td class="sep">45.3</td><td>53.9</td><td>0.275</td><td>42.2</td></tr><tr><td>HyMem</td><td>82</td><td>52</td><td>12</td><td>48.7</td><td class="sep">70.8</td><td class="sep best">0.612</td><td class="sep">60.2</td><td class="sep">46.7</td><td>36.7</td><td>0.388</td><td>40.7</td></tr><tr><td>Open Deep Search</td><td>82</td><td>50</td><td>28</td><td>53.3</td><td class="sep">76.0</td><td class="sep">0.571</td><td class="sep">62.1</td><td class="sep">51.3</td><td>47.6</td><td>0.325</td><td>43.8</td></tr><tr><td>IterResearch</td><td>84</td><td>60</td><td>20</td><td>54.7</td><td class="sep">70.5</td><td class="sep">0.564</td><td class="sep">60.5</td><td class="sep">51.3</td><td>45.9</td><td>0.390</td><td>45.4</td></tr><tr><td>SLEUTH</td><td>86</td><td>58</td><td>28</td><td>57.3</td><td class="sep">77.2</td><td class="sep">0.556</td><td class="sep">63.4</td><td class="sep">54.0</td><td>55.2</td><td>0.396</td><td>49.6</td></tr><tr class="ours"><td>PANINI-DR</td><td class="best">92</td><td class="best">76</td><td class="best">52</td><td class="best">73.3</td><td class="sep best">79.1</td><td class="sep">0.549</td><td class="sep best">69.1</td><td class="sep best">70.7</td><td class="best">66.1</td><td class="best">0.458</td><td class="best">60.9</td></tr></tbody></table></div>
     <p class="chart-note">Accuracy is official accuracy on BrowseComp-Plus (BCP, CF-150 split; 50 questions per difficulty) and FRAMES-824, and mean item-level F1 on MoNaCo-1315. Obs. keeps official credit only when the credited answer can be recovered from the evidence the harness saved. Averages weight the three benchmarks equally, with MoNaCo rescaled to 0-100. Bold: best in each column.</p>
     <div class="col">
+    </div>
+  </section>
+
+
+  <section class="sec" id="faq" aria-labelledby="faq-title">
+    <div class="col">
+      <h2 id="faq-title">Questions</h2>
+      <div class="faq">
+        <h3>What is PANINI-DR?</h3>
+        <p>PANINI-DR is a multi-agent deep-research harness for answering hard multi-step questions over a document collection. An Orchestrator coordinates the investigation through a shared research workspace, built on the Generative Semantic Workspace (GSW) representation, that records subquestions, their dependencies, findings and evidence. Researcher agents investigate individual subquestions, and a separate Verifier checks each proposed answer against its subquestion and cited evidence before it is reused.</p>
+        <h3>How well does PANINI-DR do on BrowseComp-Plus?</h3>
+        <p>On BrowseComp-Plus (CF-150 split) PANINI-DR reaches 73.3% accuracy, 16.0 points above the next-best of seven state-of-the-art deep-research harnesses (SLEUTH, 57.3%), with all harnesses using the same language model (gpt-oss-120b), frozen corpora and retrieval service. On the hard questions it answers 52%, against 28% for the next best.</p>
+        <h3>How does PANINI-DR compare on FRAMES and MoNaCo?</h3>
+        <p>PANINI-DR has the best average accuracy across BrowseComp-Plus, FRAMES and MoNaCo (69.1, against 63.4 for SLEUTH). It also has the highest observed support, the share of answer credit that can be recovered from the evidence each harness saved, on all three benchmarks (average 60.9, against 49.6).</p>
+        <h3>What makes PANINI-DR different from other deep-research agents?</h3>
+        <p>Two ideas: research state is kept explicitly in a shared workspace instead of only in a growing conversation, and every intermediate finding is verified against its evidence before later steps use it. Ablations in the paper show that both the plan-and-state structure and verification improve accuracy.</p>
+        <h3>Is the PANINI-DR code available?</h3>
+        <p>Yes. The code is open source under the Apache-2.0 licence at <a href="https://github.com/roychowdhuryresearch/panini-dr">github.com/roychowdhuryresearch/panini-dr</a>. It includes the paper configuration, the graders, benchmark preparation scripts, support for running on your own dataset, and panini-dr verify, a CPU-only check that an installation reproduces the paper code&#x27;s decisions exactly.</p>
+        <h3>Who wrote PANINI-DR?</h3>
+        <p>M. Yigit Turali and Shreyas Rajesh (equal contribution), M. Efe Lorasdagi, Chenda Duan, Kartik Sharma and Vwani Roychowdhury, University of California, Los Angeles. The paper is <a href="https://arxiv.org/abs/2610.15208">arXiv:2610.15208</a>.</p>
+      </div>
     </div>
   </section>
 

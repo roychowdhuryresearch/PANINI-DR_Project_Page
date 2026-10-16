@@ -1,0 +1,19 @@
+# PANINI-DR
+
+> PANINI-DR is a multi-agent deep-research harness for answering hard multi-step questions over a document collection. It keeps the investigation's state in an explicit shared workspace (built on the Generative Semantic Workspace representation) and has a separate Verifier check every intermediate finding against its cited evidence before it is reused. Paper: "PANINI-DR: Controlled Deep Research through Generative Semantic Workspaces" (arXiv:2610.15208), University of California, Los Angeles.
+
+Key results (all harnesses use gpt-oss-120b, the same frozen corpora and the same retrieval service):
+
+- BrowseComp-Plus (CF-150): 73.3% accuracy, 16.0 points above the next-best of seven state-of-the-art deep-research harnesses (SLEUTH, 57.3%); 52% on hard questions against 28% for the next best.
+- Best average accuracy across BrowseComp-Plus, FRAMES and MoNaCo: 69.1 against 63.4.
+- Highest observed support (answer credit recoverable from the saved evidence) on all three benchmarks: average 60.9 against 49.6.
+
+## Links
+
+- [Project page](https://roychowdhuryresearch.github.io/PANINI-DR_Project_Page/): interactive Figure 1, results, citation
+- [Paper on arXiv](https://arxiv.org/abs/2610.15208)
+- [Code on GitHub](https://github.com/roychowdhuryresearch/panini-dr): Apache-2.0; paper configuration, graders, benchmark preparation, bring-your-own-dataset, and `panini-dr verify`
+
+## Authors
+
+M. Yigit Turali and Shreyas Rajesh (equal contribution), M. Efe Lorasdagi, Chenda Duan, Kartik Sharma, Vwani Roychowdhury (University of California, Los Angeles)
